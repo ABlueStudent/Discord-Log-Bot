@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/ABlueStudent/Discord-Log-Bot#readme",
   "dependencies": {
-    "eris": "^0.15.1"
+    "eris": "^0.15.1",
+    "mongodb": "^3.6.8"
   }
 }
