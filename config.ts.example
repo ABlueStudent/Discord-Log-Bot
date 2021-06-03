@@ -1,5 +1,6 @@
 export const config = {
-    token: "Token Here!",
+    token: "",
     dbURI: "",
     dbName: "cuteBot",
+    port: 8787,
 }

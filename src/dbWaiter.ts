@@ -4,7 +4,7 @@ import { config } from '../config'
 
 export class dbWaiter {
     private bot: Eris.Client
-    private db: any
+    private db?: Db
     constructor() {
         this.bot = Eris(config.token)
         new MongoClient(config.dbURI, {useNewUrlParser: true, useUnifiedTopology: true}).connect().then((client) => {
@@ -18,24 +18,32 @@ export class dbWaiter {
                 timestamp: msg.timestamp,
                 serverID: msg.guildID,
                 channelID: msg.channel.id,
+                msgID: msg.id,
+                author: msg.author.id,
                 content: msg.content,
                 type: 'messageCreate'
             }
             // console.log(data)
-            this.db.collection('history').insertOne(data)
+            this.db!.collection('history').insertOne(data)
         })
         this.bot.on('messageUpdate', (msg) => {
             let data = {
                 timestamp: msg.timestamp,
                 serverID: msg.guildID,
                 channelID: msg.channel.id,
+                msgID: msg.id,
+                author: msg.author.id,
                 content: msg.content,
                 type: 'messageUpdate'
             }
             // console.log(data)
-            this.db.collection('history').insertOne(data)
+            this.db!.collection('history').insertOne(data)
         })
 
         this.bot.connect()
+    }
+
+    getAllHistory() {
+        return this.db!.collection('history').find()
     }
 }
