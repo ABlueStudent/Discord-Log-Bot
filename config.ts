@@ -1,3 +1,5 @@
 export const config = {
-    token: "TOKEN HERE!!"
+    token: "Token Here!",
+    dbURI: "",
+    dbName: "cuteBot",
 }

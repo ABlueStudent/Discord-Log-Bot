@@ -1,4 +1,3 @@
-import { config } from "./config";
-import { Bot } from "./src/discord-bot/Bot";
+import { dbWaiter } from "./src/dbWaiter";
 
-new Bot(config.token)
+new dbWaiter()
