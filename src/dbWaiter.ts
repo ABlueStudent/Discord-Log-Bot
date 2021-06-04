@@ -1,3 +1,4 @@
+import { time } from 'console'
 import Eris from 'eris'
 import { Db, MongoClient } from 'mongodb'
 import { config } from '../config'
@@ -19,7 +20,7 @@ export class dbWaiter {
                 serverID: msg.guildID,
                 channelID: msg.channel.id,
                 msgID: msg.id,
-                author: msg.author.id,
+                author: msg.author.username,
                 content: msg.content,
                 type: 'messageCreate'
             }
@@ -32,7 +33,7 @@ export class dbWaiter {
                 serverID: msg.guildID,
                 channelID: msg.channel.id,
                 msgID: msg.id,
-                author: msg.author.id,
+                author: msg.author.username,
                 content: msg.content,
                 type: 'messageUpdate'
             }
@@ -44,6 +45,19 @@ export class dbWaiter {
     }
 
     getAllHistory() {
-        return this.db!.collection('history').find()
+        return this.db!.collection('history').find().sort({timestamp: -1})
+    }
+
+    getADayHsitory() {
+        const time = new Date().setHours(0, 0, 0, 0) / 1000
+        return this.db!.collection('history').find({timestamp: {$gt: time}}).sort({timestamp: -1})
+    }
+
+    getAWeekHistory() {
+        const time = new Date();
+        const midnight = time.setHours(0, 0, 0, 0) / 1000;
+        const day = time.getDay() === 0 ? 7 : time.getDay();
+        const startTime = (midnight - (day - 1) * 86400);
+        return this.db!.collection('history').find({timestamp: {$gt: startTime}}).sort({timestamp: -1})
     }
 }
