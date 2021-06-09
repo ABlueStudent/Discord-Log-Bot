@@ -49,15 +49,15 @@ export class dbWaiter {
     }
 
     getADayHsitory() {
-        const time = new Date().setHours(0, 0, 0, 0) / 1000
+        const time = new Date().setHours(0, 0, 0, 0)
         return this.db!.collection('history').find({timestamp: {$gt: time}}).sort({timestamp: -1})
     }
 
     getAWeekHistory() {
         const time = new Date();
-        const midnight = time.setHours(0, 0, 0, 0) / 1000;
-        const day = time.getDay() === 0 ? 7 : time.getDay();
-        const startTime = (midnight - (day - 1) * 86400);
+        const midnight = time.setHours(0, 0, 0, 0)
+        const day = time.getDay() === 0 ? 7 : time.getDay()
+        const startTime = (midnight - (day - 1) * 86400)
         return this.db!.collection('history').find({timestamp: {$gt: startTime}}).sort({timestamp: -1})
     }
 }
