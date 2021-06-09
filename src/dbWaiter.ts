@@ -15,26 +15,34 @@ export class dbWaiter {
 
         this.bot.on('ready', () => { console.log('bot connected!') })
         this.bot.on('messageCreate', (msg) => {
+            let urls = Array()
+            msg.attachments.forEach(element => {
+                urls.push(element.url)
+            })
             let data = {
                 timestamp: msg.timestamp,
                 serverID: msg.guildID,
                 channelID: msg.channel.id,
                 msgID: msg.id,
                 author: msg.author.username,
-                content: msg.content,
+                content: msg.content+'\n'+urls.join(),
                 type: 'messageCreate'
             }
             // console.log(data)
             this.db!.collection('history').insertOne(data)
         })
         this.bot.on('messageUpdate', (msg) => {
+            let urls = Array()
+            msg.attachments.forEach(element => {
+                urls.push(element.url)
+            })
             let data = {
                 timestamp: msg.timestamp,
                 serverID: msg.guildID,
                 channelID: msg.channel.id,
                 msgID: msg.id,
                 author: msg.author.username,
-                content: msg.content,
+                content: msg.content+'\n'+urls.join(),
                 type: 'messageUpdate'
             }
             // console.log(data)
